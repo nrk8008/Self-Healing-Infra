@@ -17,7 +17,7 @@ Build a **self-healing infrastructure** that automatically detects when a servic
 
 ---
 
-## 🚀 Features
+## Features
 - Monitors NGINX endpoint uptime (`http://localhost:8080`)
 - Monitors CPU usage via Node Exporter
 - Sends alerts when:
@@ -27,6 +27,18 @@ Build a **self-healing infrastructure** that automatically detects when a servic
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
-
+Self-Healing-Infra/
+├── docker-compose.yml
+├── prometheus/
+│ ├── prometheus.yml
+│ └── alert_rules.yml
+├── alertmanager/
+│ └── alertmanager.yml
+├── webhook/
+│ └── webhook.py
+└── ansible/
+├── ansible.cfg
+├── inventory
+└── restart_nginx.yml
