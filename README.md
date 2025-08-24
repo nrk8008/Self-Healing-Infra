@@ -27,18 +27,33 @@ Build a **self-healing infrastructure** that automatically detects when a servic
 
 ---
 
-## Project Structure
+## Start Sample Service (NGINX)
 
-Self-Healing-Infra/
-├── docker-compose.yml
-├── prometheus/
-│ ├── prometheus.yml
-│ └── alert_rules.yml
-├── alertmanager/
-│ └── alertmanager.yml
-├── webhook/
-│ └── webhook.py
-└── ansible/
-├── ansible.cfg
-├── inventory
-└── restart_nginx.yml
+    docker run -d --name mynginx -p 8080:80 nginx
+
+## Start Monitoring Stack
+
+    docker compose up -d
+
+- Prometheus → http://localhost:9090
+
+- Alertmanager → http://localhost:9093
+
+- Node Exporter → http://localhost:9100
+
+- Blackbox Exporter → http://localhost:9115
+
+## Install Dependencies (Python + Ansible)
+
+    pip install flask ansible
+
+## Run Webhook Listener
+
+    cd webhook
+    python3 webhook.py
+
+Runs on → http://localhost:5001
+
+## Ansible Playbook (Auto-Heal)
+
+
