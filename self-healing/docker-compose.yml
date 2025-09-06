@@ -1,0 +1,36 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter
+    container_name: node_exporter
+    ports:
+      - 9100:9100
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter
+    container_name: blackbox_exporter
+    ports:
+      - 9115:9115
+
+  nginx:
+    image: nginx
+    container_name: mynginx
+    ports:
+      - 8080:80
+
