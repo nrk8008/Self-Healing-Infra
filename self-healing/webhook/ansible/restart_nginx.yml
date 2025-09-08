@@ -4,4 +4,5 @@
     - name: Restart mynginx container
       community.docker.docker_container:
         name: mynginx
-        state: restarted
+        state: started
+        restart : true 
