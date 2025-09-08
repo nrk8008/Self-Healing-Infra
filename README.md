@@ -57,3 +57,43 @@ Runs on → http://localhost:5001
 ## Ansible Playbook (Auto-Heal)
 
 
+## Now everything is working:
+### Check everything is running
+Run:
+
+      docker ps
+
+Expected: mynginx (nginx) → running on port 8080
+
+- NGINX (mynginx) is up and serving on http://localhost:8080
+
+- Prometheus → http://localhost:9090
+
+- Alertmanager → http://localhost:9093
+
+- Node Exporter → http://localhost:9100/metrics
+
+- Blackbox Exporter → http://localhost:9115
+
+## Test Self-Healing
+
+- Stop NGINX (simulate failure):
+
+      docker stop mynginx
+
+
+- Wait ~30–60 seconds. What should happen:
+
+      - Prometheus detects probe_success=0.
+
+      - Alertmanager fires NginxDown alert.
+
+      - Webhook receives the alert.
+
+      - Ansible playbook restarts the mynginx container automatically.
+
+- Verify NGINX is restarted:
+
+      docker ps
+      curl localhost:8080
+
