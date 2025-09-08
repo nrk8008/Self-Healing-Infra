@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   prometheus:
     image: prom/prometheus
@@ -7,6 +9,10 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+    depends_on: 
+      - alertmanager
+      # - node_exporter
+      # - blackbox_exporter
 
   alertmanager:
     image: prom/alertmanager
@@ -15,6 +21,8 @@ services:
       - 9093:9093
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    depends_on:
+      - ansible-webhook
 
   node_exporter:
     image: quay.io/prometheus/node-exporter
@@ -33,4 +41,13 @@ services:
     container_name: mynginx
     ports:
       - 8080:80
+
+  ansible-webhook:
+    build:
+      context: ./webhook   # folder containing webhook.py, Dockerfile, ansible/
+    container_name: ansible-webhook
+    ports:
+      - 5001:5001
+    volumes:
+      - ./webhook/ansible:/app/ansible
 

@@ -1,11 +1,10 @@
 route:
-  receiver: ansible-webhook
-  group_wait: 10s
-  group_interval: 30s
-  repeat_interval: 1h
+  receiver: 'webhook-receiver'
+  # group_wait: 10s
+  # group_interval: 30s
+  # repeat_interval: 1h
 
 receivers:
-  - name: ansible-webhook
+  - name: 'webhook-receiver'
     webhook_configs:
-      - url: "http://host.docker.internal:5001/"
-        send_resolved: true
+      - url: 'http://ansible-webhook:5001/'   # docker-compose service name + port

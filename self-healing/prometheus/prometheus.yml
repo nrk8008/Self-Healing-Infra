@@ -1,13 +1,19 @@
 global:
-  scrape_interval: 5s
+  scrape_interval: 10s
+  scrape_timeout: 8s
 
 rule_files:
   - /etc/prometheus/alert_rules.yml
 
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]   # Alertmanager service inside docker-compose
+
 scrape_configs:
   - job_name: node
     static_configs:
-      - targets: ["host.docker.internal:9100"]
+      - targets: ["node_exporter:9100"]   # service name
 
   - job_name: http_probe
     metrics_path: /probe
@@ -15,11 +21,11 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-          - http://host.docker.internal:8080/
+          - http://nginx:80/              # nginx service name + port inside docker
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: host.docker.internal:9115
+        replacement: blackbox_exporter:9115   # service name
