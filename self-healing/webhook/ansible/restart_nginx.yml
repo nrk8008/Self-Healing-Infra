@@ -1,8 +1,10 @@
 - name: Restart NGINX container
   hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3   # <- Use the Python where requests is installed
   tasks:
     - name: Restart mynginx container
       community.docker.docker_container:
         name: mynginx
         state: started
-        restart : true 
+        restart: true

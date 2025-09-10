@@ -1,10 +1,12 @@
+global:
+  resolve_timeout: 5m
+
 route:
   receiver: 'webhook-receiver'
-  # group_wait: 10s
-  # group_interval: 30s
-  # repeat_interval: 1h
 
 receivers:
   - name: 'webhook-receiver'
     webhook_configs:
       - url: 'http://ansible-webhook:5001/'   # docker-compose service name + port
+        send_resolved: true
+        

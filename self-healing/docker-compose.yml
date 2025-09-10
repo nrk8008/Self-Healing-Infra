@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   prometheus:
     image: prom/prometheus
@@ -43,11 +41,11 @@ services:
       - 8080:80
 
   ansible-webhook:
-    build:
-      context: ./webhook   # folder containing webhook.py, Dockerfile, ansible/
+    image: ansible-webhook   # using prebuilt image
     container_name: ansible-webhook
     ports:
       - 5001:5001
     volumes:
       - ./webhook/ansible:/app/ansible
+
 
